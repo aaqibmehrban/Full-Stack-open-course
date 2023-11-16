@@ -1,0 +1,30 @@
+sequenceDiagram
+    participant browser
+    participant server
+
+    Note left of browser: User enters a note and clicks 'Save'
+
+    browser->>server: POST https://studies.cs.helsinki.fi/exampleapp/new_note
+    activate server
+    Note right of server: Server processes the new note data
+    server-->>browser: Confirmation response
+    deactivate server
+
+    Note right of browser: Browser updates the page to show the new note
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/notes
+    activate server
+    server-->>browser: Updated HTML document with new note
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
+    activate server
+    server-->>browser: the css file
+    deactivate server
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.js
+    activate server
+    server-->>browser: the JavaScript file
+    deactivate server
+
+    Note right of browser: The browser executes the JavaScript to update the page
