@@ -1,0 +1,29 @@
+sequenceDiagram
+    participant User as User's Browser
+    participant Server as Server at studies.cs.helsinki.fi
+
+    Note over User: User navigates to the SPA version of the notes app
+
+    User->>Server: GET /exampleapp/spa
+    activate Server
+    Server-->>User: spa HTML document
+    deactivate Server
+
+    User->>Server: GET /exampleapp/main.css
+    activate Server
+    Server-->>User: main.css file
+    deactivate Server
+
+    User->>Server: GET /exampleapp/spa.js
+    activate Server
+    Server-->>User: spa.js JavaScript file
+    deactivate Server
+
+    Note over User: Browser executes spa.js, which includes fetching data
+
+    User->>Server: GET /exampleapp/data.json
+    activate Server
+    Server-->>User: data.json file with notes data
+    deactivate Server
+
+    Note over User: Browser renders the notes dynamically on the page using the data from data.json
