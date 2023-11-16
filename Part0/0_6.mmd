@@ -1,0 +1,20 @@
+sequenceDiagram
+    participant User as User's Browser
+    participant Server as Server at studies.cs.helsinki.fi
+
+    Note over User: User fills in a new note and submits it
+
+    User->>Server: POST /exampleapp/new_note_spa
+    activate Server
+    Note right of Server: Server processes the new note
+    Server-->>User: Response with status (success or failure)
+    deactivate Server
+
+    Note over User: Browser may update the page to show the new note without reloading
+
+    User->>Server: GET /exampleapp/data.json
+    activate Server
+    Server-->>User: Updated data.json file with the new note included
+    deactivate Server
+
+    Note over User: Browser updates the notes display dynamically
