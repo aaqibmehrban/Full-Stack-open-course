@@ -5,7 +5,10 @@ const Header= ({text})=> <h1>{text}</h1>
 
 const StatisticsLine = (props) => {
   return (
-    <p>{props.text} {props.value}</p>
+    <tr>
+      <td>{props.text}</td>
+      <td>{props.value}</td>
+    </tr>
   )
 }
 
@@ -13,19 +16,29 @@ const StatisticsLine = (props) => {
 const Statistics = (props) =>{
   if (props.good!=0 || props.bad!=0 || props.neutral!=0){
     return(
-      <div>
-        <StatisticsLine text='good' value={props.good}></StatisticsLine>
-        <StatisticsLine text='neutral' value={props.neutral}></StatisticsLine>
-        <StatisticsLine text='bad' value={props.bad}></StatisticsLine>
-        <StatisticsLine text='all' value={props.bad+props.good+props.neutral}></StatisticsLine>
-        <StatisticsLine text='average' value={props.averageTotal()}></StatisticsLine>
-        <StatisticsLine text='postive' value={props.positiveTotal()}></StatisticsLine>
-    </div>
+      <table>
+        <tbody>
+          <StatisticsLine text='good' value={props.good}></StatisticsLine>
+          <StatisticsLine text='neutral' value={props.neutral}></StatisticsLine>
+          <StatisticsLine text='bad' value={props.bad}></StatisticsLine>
+          <StatisticsLine text='all' value={props.bad+props.good+props.neutral}></StatisticsLine>
+          <StatisticsLine text='average' value={props.averageTotal()}></StatisticsLine>
+          <StatisticsLine text='postive' value={props.positiveTotal()}></StatisticsLine>
+      </tbody>
+    </table>
     )
 
   }
   return (
-    <div>No feedback given</div>
+    <table>
+    <tbody>
+      <tr>
+      <td>
+        No Feedback Given
+      </td>
+      </tr>
+    </tbody>
+    </table>
   )
   
       
