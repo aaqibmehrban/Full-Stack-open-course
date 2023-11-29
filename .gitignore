@@ -1,2 +1,4 @@
 Part0
-node
+Part1/courseinfo/.eslintrc.cjs
+Part1/courseinfo/node_modules
+Part1/unicafe/node_modules
