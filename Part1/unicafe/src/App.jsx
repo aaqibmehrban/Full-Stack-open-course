@@ -4,16 +4,23 @@ import { useState } from 'react'
 const Header= ({text})=> <h1>{text}</h1>
 
 const Statistics = (props) =>{
-  return (
-    <div>
-    <p>good {props.good} </p>
-      <p>neutral {props.neutral} </p>
-      <p>bad {props.bad} </p>
-      <p>all {props.good+props.bad+props.neutral}</p>
-      <p>average {props.averageTotal()}</p>
-      <p>positive {props.positiveTotal()} %</p>
+  if (props.good!=0 || props.bad!=0 || props.neutral!=0){
+    return(
+      <div>
+        <p>good {props.good} </p>
+        <p>neutral {props.neutral} </p>
+        <p>bad {props.bad} </p>
+        <p>all {props.good+props.bad+props.neutral}</p>
+        <p>average {props.averageTotal()}</p>
+        <p>positive {props.positiveTotal()} %</p>
     </div>
+    )
+
+  }
+  return (
+    <div>No feedback given</div>
   )
+  
       
 }
 
