@@ -13,15 +13,26 @@ const App = () => {
   ]
    
   const [selected, setSelected] = useState(0)
+  const [points, setMyArray] = useState(new Uint8Array(anecdotes.length));
 
   const setSelectedValue=() =>{
     setSelected(Math.floor(Math.random() * anecdotes.length));
   }
 
-
+  const updatePoints = (selected)=>{
+    console.log('value of points for array position',selected,'is ',points[selected]);
+    const copy=[...points];
+    copy[selected]+=1;
+    setMyArray(copy);
+    console.log('After Update value of points for array position',selected,'is ',points[selected]);
+    console.log(points)
+  }
+  console.log('index value of anecdote',selected)
   return (
     <div>
       <p>{anecdotes[selected]}</p>
+      <p>has {points[selected]} votes</p>
+      <button onClick={()=>updatePoints(selected)}>vote</button>
       <button onClick={setSelectedValue}>next anecdote</button>
     </div>
   )
