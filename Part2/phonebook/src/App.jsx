@@ -8,6 +8,35 @@ const Phonebook = (props) => {
   )
 }
 
+const Persons = (props)=>{
+  return (
+    <div>
+      {props.filterPhoneValue.map(p => 
+        <Phonebook key={p.id} name={p.name} phone={p.number}/>
+      )}
+    </div>
+  )
+}
+
+const Filter = (props)=> {
+  return (
+    <div>
+        filter shown with <input onChange={props.onChange}/>
+      </div>
+  )
+}
+
+const PersonForm = (props) => {
+    return (
+      <form onSubmit={props.addPhone}>
+        <div>name: <input id='input-field' value={props.newName} onChange={props.handleInputChange}/></div>
+        <div>number: <input id='input-phone' value={props.newPhone} onChange={props.handlePhoneChange}/></div>
+        <div><button type="submit">add</button></div>
+      </form>
+    )
+
+}
+
 const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas', number: '040-123456', id: 1 },
@@ -55,21 +84,17 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>
-        filter shown with <input onChange={filterPhoneBook}/>
-      </div>
-      <h2>add a new</h2>
-      <form onSubmit={addPhone}>
-        <div>name: <input id='input-field' value={newName} onChange={handleInputChange}/></div>
-        <div>number: <input id='input-phone' value={newPhone} onChange={handlePhoneChange}/></div>
-        <div><button type="submit">add</button></div>
-      </form>
-      <h2>Numbers</h2>
-      <div>
-      {filterPhone.map(p => 
-          <Phonebook key={p.name} name={p.name} phone={p.number}/>
-        )}
-      </div>
+      <Filter onChange={filterPhoneBook}/>
+      <h3>add a new</h3>
+      <PersonForm 
+        addPhone={addPhone}
+        newName={newName}
+        newPhone={newPhone}
+        handleInputChange={handleInputChange}
+        handlePhoneChange={handlePhoneChange}        
+      />
+      <h3>Numbers</h3>
+      <Persons filterPhoneValue={filterPhone}/>
     </div>
   )
 }
