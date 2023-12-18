@@ -41,11 +41,12 @@ const App = () => {
   const [ persons, setPersons ] = useState([])
   const [newName, setNewName] = useState('')
   const [newPhone, setNewPhone] = useState('')
-  const [filterPhone,setFilterPhone] = useState(persons)
+  const [filterPhone,setFilterPhone] = useState([])
 
   useEffect(() => {       
     axios.get('http://localhost:3001/persons').then(response => {         
-      setPersons(response.data)      
+      setPersons(response.data) 
+      setFilterPhone(response.data)     
     })  
   }, [])
 
@@ -58,9 +59,17 @@ const App = () => {
           name: newName,
           number: newPhone,
       }
-      setPersons(persons.concat(noteObject))
-      setNewName('')
-      setNewPhone('')
+      axios
+      .post('http://localhost:3001/persons', noteObject)
+      .then(response => {
+        setPersons(persons.concat(noteObject))
+        setFilterPhone(filterPhone.concat(noteObject))
+        setNewName('')
+        setNewPhone('')  
+      
+      })
+
+
     }
     else{
       alert(`${inputVal} is already added to phonebook`)
