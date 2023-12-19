@@ -76,24 +76,42 @@ const App = () => {
 
     }
     else{
-      alert(`${inputVal} is already added to phonebook`)
+      if (window.confirm(`${inputVal} is already added to phonebook, replace the old number with a new one?`)) {
+        const noteObject = {
+          name: newName,
+          number: newPhone,
+      }
+      const personId = persons.find(p => p.name === inputVal);
+      const id = personId ? personId.id : null;
+      console.log("ID is " + id)
+      phoneService.updatePhone(id,noteObject)
+      .then(response => {
+        setPersons(persons.map(p => p.id === id ? response.data : p));
+        setFilterPhone(filterPhone.map(p => p.id === id ? response.data : p));
+        setNewName('')
+        setNewPhone('')  
+      
+      })
+
+    }
+  }
+  }
+    
+
+
+
+  const delContact = (id,name) => {
+    console.log(id)
+    if (window.confirm(`Delete ${name}`)) {
+      phoneService.deletePhone(id).then(response => {
+        console.log(response.data)
+        setPersons(persons.filter(person => person.id !== id));
+        setFilterPhone(filterPhone.filter(person => person.id !== id));
+        
+      })
     }
     
-}
-
-
-const delContact = (id,name) => {
-  console.log(id)
-  if (window.confirm(`Delete ${name}`)) {
-    phoneService.deletePhone(id).then(response => {
-      console.log(response.data)
-      setPersons(persons.filter(person => person.id !== id));
-      setFilterPhone(filterPhone.filter(person => person.id !== id));
-      
-    })
-  }
-  
-}
+    }
 
   const handleInputChange = (event) => {    
     console.log(event.target.value)    
@@ -126,5 +144,6 @@ const delContact = (id,name) => {
     </div>
   )
 }
+
 
 export default App
