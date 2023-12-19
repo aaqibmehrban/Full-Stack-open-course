@@ -5,7 +5,9 @@ import phoneService from './services/phonebook'
 const Phonebook = (props) => {
   return (
     <div>
-      <p>{props.name} {props.phone}</p>
+      <p>{props.name} {props.phone}
+      <button onClick={()=>props.delContact(props.id,props.name)}>delete</button>
+      </p>
     </div>
   )
 }
@@ -14,7 +16,7 @@ const Persons = (props)=>{
   return (
     <div>
       {props.filterPhoneValue.map(p => 
-        <Phonebook key={p.id} name={p.name} phone={p.number}/>
+        <Phonebook key={p.id} name={p.name} id={p.id} phone={p.number} delContact={props.onDelete}/>
       )}
     </div>
   )
@@ -79,6 +81,20 @@ const App = () => {
     
 }
 
+
+const delContact = (id,name) => {
+  console.log(id)
+  if (window.confirm(`Delete ${name}`)) {
+    phoneService.deletePhone(id).then(response => {
+      console.log(response.data)
+      setPersons(persons.filter(person => person.id !== id));
+      setFilterPhone(filterPhone.filter(person => person.id !== id));
+      
+    })
+  }
+  
+}
+
   const handleInputChange = (event) => {    
     console.log(event.target.value)    
     setNewName(event.target.value) 
@@ -103,10 +119,10 @@ const App = () => {
         newName={newName}
         newPhone={newPhone}
         handleInputChange={handleInputChange}
-        handlePhoneChange={handlePhoneChange}        
+        handlePhoneChange={handlePhoneChange}      
       />
       <h3>Numbers</h3>
-      <Persons filterPhoneValue={filterPhone}/>
+      <Persons filterPhoneValue={filterPhone} onDelete={delContact}/>
     </div>
   )
 }
