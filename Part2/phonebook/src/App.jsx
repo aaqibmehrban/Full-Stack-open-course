@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import phoneService from './services/phonebook'
+import './index.css'
 
 const Phonebook = (props) => {
   return (
@@ -22,6 +23,7 @@ const Persons = (props)=>{
   )
 }
 
+
 const Filter = (props)=> {
   return (
     <div>
@@ -41,11 +43,24 @@ const PersonForm = (props) => {
 
 }
 
+const Notification = ({ message }) => {
+  if (message === null) {
+    return null
+  }
+
+  return (
+    <div className='notification-success'>
+      {message}
+    </div>
+  )
+}
+
 const App = () => {
   const [ persons, setPersons ] = useState([])
   const [newName, setNewName] = useState('')
   const [newPhone, setNewPhone] = useState('')
   const [filterPhone,setFilterPhone] = useState([])
+  const [notifyMessage, setNotifyMessage] = useState(null)
 
   useEffect(() => {       
     phoneService.getAll()
@@ -69,7 +84,12 @@ const App = () => {
         setPersons(persons.concat(response.data))
         setFilterPhone(filterPhone.concat(response.data))
         setNewName('')
-        setNewPhone('')  
+        setNewPhone('')
+        setNotifyMessage(`'${noteObject.name}' added to phonebook`)        
+        setTimeout(() => 
+        {          
+          setNotifyMessage(null)        
+        }, 5000)  
       
       })
 
@@ -89,7 +109,12 @@ const App = () => {
         setPersons(persons.map(p => p.id === id ? response.data : p));
         setFilterPhone(filterPhone.map(p => p.id === id ? response.data : p));
         setNewName('')
-        setNewPhone('')  
+        setNewPhone('')
+        setNotifyMessage(`Phone Number Updated Successfully for '${inputVal}'`)        
+        setTimeout(() => 
+        {          
+          setNotifyMessage(null)        
+        }, 5000)
       
       })
 
@@ -99,7 +124,7 @@ const App = () => {
     
 
 
-
+  
   const delContact = (id,name) => {
     console.log(id)
     if (window.confirm(`Delete ${name}`)) {
@@ -129,7 +154,8 @@ const App = () => {
 
   return (
     <div>
-      <h2>Phonebook</h2>
+      <h1>Phonebook</h1>
+      <Notification message={notifyMessage} />
       <Filter onChange={filterPhoneBook}/>
       <h3>add a new</h3>
       <PersonForm 
