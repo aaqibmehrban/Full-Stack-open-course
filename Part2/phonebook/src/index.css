@@ -8,7 +8,7 @@
     margin-bottom: 10px;
   }
 
-.notification-failed {
+.notification-fail {
     color: red;
     background: lightgrey;
     font-size: 20px;

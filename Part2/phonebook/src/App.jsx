@@ -43,13 +43,13 @@ const PersonForm = (props) => {
 
 }
 
-const Notification = ({ message }) => {
+const Notification = ({ message,classname }) => {
   if (message === null) {
     return null
   }
 
   return (
-    <div className='notification-success'>
+    <div className={classname}>
       {message}
     </div>
   )
@@ -61,6 +61,7 @@ const App = () => {
   const [newPhone, setNewPhone] = useState('')
   const [filterPhone,setFilterPhone] = useState([])
   const [notifyMessage, setNotifyMessage] = useState(null)
+  const [notifyType,setNotifyType] = useState('') //'notification-success','notification-fail'
 
   useEffect(() => {       
     phoneService.getAll()
@@ -85,6 +86,7 @@ const App = () => {
         setFilterPhone(filterPhone.concat(response.data))
         setNewName('')
         setNewPhone('')
+        setNotifyType('notification-success')
         setNotifyMessage(`'${noteObject.name}' added to phonebook`)        
         setTimeout(() => 
         {          
@@ -110,12 +112,22 @@ const App = () => {
         setFilterPhone(filterPhone.map(p => p.id === id ? response.data : p));
         setNewName('')
         setNewPhone('')
+        setNotifyType('notification-success')
         setNotifyMessage(`Phone Number Updated Successfully for '${inputVal}'`)        
         setTimeout(() => 
         {          
           setNotifyMessage(null)        
         }, 5000)
       
+      }).catch(error=>{
+        setNotifyType('notification-fail')
+        setNewName('')
+        setNewPhone('')
+        setNotifyMessage(`Contact '${inputVal}' You are trying to Update has already been deleted`)        
+        setTimeout(() => 
+        {          
+          setNotifyMessage(null)        
+        }, 5000)
       })
 
     }
@@ -124,7 +136,6 @@ const App = () => {
     
 
 
-  
   const delContact = (id,name) => {
     console.log(id)
     if (window.confirm(`Delete ${name}`)) {
@@ -155,7 +166,7 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
-      <Notification message={notifyMessage} />
+      <Notification message={notifyMessage} classname={notifyType}/>
       <Filter onChange={filterPhoneBook}/>
       <h3>add a new</h3>
       <PersonForm 
